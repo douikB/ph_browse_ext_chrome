@@ -5,6 +5,7 @@ const headersOutEl = document.getElementById("headersOut");
 const formsOutEl = document.getElementById("formsOut");
 const cfOutEl = document.getElementById("cfOut");
 const debugOutEl = document.getElementById("debugOut");
+const jsOutEl = document.getElementById("jsOut");
 
 function setStatus(text) {
   statusEl.textContent = text;
@@ -71,6 +72,7 @@ scanBtn.addEventListener("click", async () => {
   formsOutEl.textContent = "-";
   cfOutEl.textContent = "-";
   summaryEl.innerHTML = "";
+  jsOutEl.textContent = "-";
 
   try {
     setStatus("Scanning...");
@@ -98,15 +100,20 @@ scanBtn.addEventListener("click", async () => {
     if (typeof buildSummary !== "function") {
       throw new Error("buildSummary is not loaded");
     }
+    if (typeof analyzeInlineScripts !== "function") {
+      throw new Error("analyzeInlineScripts is not loaded");
+    }
 
     const headerInfo = analyzeHeadersFromHtml(html, url);
     const formInfo = analyzeForms(html);
     const cloudflareInfo = analyzeCloudflareHints(html);
-    const summary = buildSummary({ headerInfo, formInfo, cloudflareInfo });
+    const jsInfo = analyzeInlineScripts(html);
+    const summary = buildSummary({ headerInfo, formInfo, cloudflareInfo, jsInfo });
 
     headersOutEl.textContent = JSON.stringify(headerInfo, null, 2);
     formsOutEl.textContent = JSON.stringify(formInfo, null, 2);
     cfOutEl.textContent = JSON.stringify(cloudflareInfo, null, 2);
+    jsOutEl.textContent = JSON.stringify(jsInfo, null, 2);
     renderSummary(summary);
 
     debugLog("Analysis complete");

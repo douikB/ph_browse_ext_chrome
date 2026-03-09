@@ -1,4 +1,4 @@
-function buildSummary({ headerInfo, formInfo, cloudflareInfo }) {
+function buildSummary({ headerInfo, formInfo, cloudflareInfo, jsInfo }) {
   const items = [];
 
   if (cloudflareInfo.hasCloudflareBeacon || cloudflareInfo.hasCdnCgi) {
@@ -20,6 +20,20 @@ function buildSummary({ headerInfo, formInfo, cloudflareInfo }) {
 
   if (headerInfo.hasPasswordKeyword) {
     items.push("credential 관련 키워드 존재");
+  }
+
+  if (jsInfo && jsInfo.suspiciousCount > 0) {
+    items.push(`의심스러운 inline script ${jsInfo.suspiciousCount}개`);
+  }
+
+  const hasDecodedExternalScript =
+    jsInfo &&
+    jsInfo.suspiciousScripts.some(script =>
+      script.findings.some(f => f.decodedHasScriptTag)
+    );
+
+  if (hasDecodedExternalScript) {
+    items.push("unescape + document.write로 외부 script 삽입 흔적");
   }
 
   if (items.length === 0) {
