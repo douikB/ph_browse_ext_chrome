@@ -17,6 +17,9 @@ function analyzeInlineScripts(html) {
 
     const hasDocumentWrite = /document\s*\.\s*write\s*\(/i.test(content);
     const hasUnescape = /\bunescape\s*\(/i.test(content);
+    const hasDecodeURIComponent = /\bdecodeURIComponent\s*\(/i.test(content);
+    const hasAtob = /\batob\s*\(/i.test(content);
+    const hasScriptSrcString = /<script\b[^>]*src\s*=|script\s+src\s*=|src\s*=\s*https?:/i.test(content);
 
     const findings = [];
 
@@ -44,23 +47,31 @@ function analyzeInlineScripts(html) {
       });
     }
 
+    const suspicious =
+      hasDocumentWrite ||
+      hasUnescape ||
+      hasDecodeURIComponent ||
+      hasAtob ||
+      hasScriptSrcString ||
+      findings.some(f => f.decodedHasScriptTag);
+
     scripts.push({
       index,
       length: content.length,
+      preview: content.slice(0, 300),
       hasDocumentWrite,
       hasUnescape,
-      suspicious: hasDocumentWrite && hasUnescape,
+      hasDecodeURIComponent,
+      hasAtob,
+      hasScriptSrcString,
+      suspicious,
       findings
     });
 
     index += 1;
   }
 
-  const suspiciousScripts = scripts.filter(
-    s =>
-      s.suspicious ||
-      s.findings.some(f => f.decodedHasScriptTag)
-  );
+  const suspiciousScripts = scripts.filter(s => s.suspicious);
 
   return {
     totalInlineScripts: scripts.length,
