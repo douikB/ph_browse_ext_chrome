@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <title>Phish Inspector</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 12px;
+      }
+
+      h1 {
+        font-size: 18px;
+        margin: 0 0 12px;
+      }
+
+      .toolbar {
+        margin-bottom: 12px;
+      }
+
+      button {
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+
+      .section {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 12px;
+      }
+
+      .section h2 {
+        font-size: 14px;
+        margin: 0 0 8px;
+      }
+
+      .muted {
+        color: #666;
+      }
+
+      pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+        background: #f6f6f6;
+        padding: 10px;
+        border-radius: 6px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #eee;
+        font-size: 12px;
+        margin-right: 6px;
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Phish Inspector</h1>
+
+    <div class="toolbar">
+      <button id="scanBtn">Scan Current Page</button>
+      <span id="status" class="muted"></span>
+    </div>
+
+    <div class="section">
+      <h2>Summary</h2>
+      <div id="summary"></div>
+    </div>
+
+    <div class="section">
+      <h2>Headers / URL</h2>
+      <pre id="headersOut">-</pre>
+    </div>
+
+    <div class="section">
+      <h2>Form Analysis</h2>
+      <pre id="formsOut">-</pre>
+    </div>
+
+    <div class="section">
+      <h2>Cloudflare Indicators</h2>
+      <pre id="cfOut">-</pre>
+    </div>
+
+    <div class="section">
+        <h2>Debug</h2>
+        <pre id="debugOut">-</pre>
+    </div>
+
+    <script src="analyzers/headers.js"></script>
+    <script src="analyzers/forms.js"></script>
+    <script src="analyzers/cloudflare.js"></script>
+    <script src="analyzers/summary.js"></script>
+    <script src="panel.js"></script>
+  </body>
+</html>

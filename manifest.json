@@ -1,0 +1,8 @@
+{
+  "manifest_version": 3,
+  "name": "Phish DevTools Skeleton",
+  "version": "0.1.0",
+  "description": "Personal DevTools panel for phishing-oriented page inspection",
+  "devtools_page": "devtools.html",
+  "permissions": []
+}
