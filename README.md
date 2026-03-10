@@ -2,15 +2,12 @@
 chrome_extension_for_phishing
 
 ```
-phish-devtools-skeleton/
+security-scan-devtools/
   manifest.json
   devtools.html
   devtools.js
   panel.html
   panel.js
-  analyzers/
-    headers.js
-    forms.js
-    cloudflare.js
-    summary.js
+  js.js
+  forms.js
 ```
