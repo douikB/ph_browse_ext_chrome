@@ -1,5 +1,5 @@
 chrome.devtools.panels.create(
-  "Phish Inspector",
+  "Security Scan",
   "",
   "panel.html",
   () => {}
